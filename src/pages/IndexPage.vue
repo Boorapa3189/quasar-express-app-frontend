@@ -21,7 +21,7 @@
       </q-card-section>
     </q-card>
 
-    <q-card>
+    <q-card class="q-mb-md">
       <q-card-section>
         <div class="text-h6">Docker Concepts (สรุปสั้น ๆ)</div>
         <q-list bordered separator class="q-mt-sm">
@@ -29,6 +29,22 @@
             <q-item-section>
               <q-item-label>{{ item.title }}</q-item-label>
               <q-item-label caption>{{ item.detail }}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-card-section>
+    </q-card>
+
+    <q-card>
+      <q-card-section>
+        <div class="text-h6">Docker Quick Reference</div>
+        <q-list bordered separator class="q-mt-sm">
+          <q-item v-for="(cmd, index) in dockerCommands" :key="index">
+            <q-item-section>
+              <q-item-label>
+                <code>{{ cmd.command }}</code>
+              </q-item-label>
+              <q-item-label caption>{{ cmd.description }}</q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
@@ -77,6 +93,41 @@ const dockerItems = [
   {
     title: 'Network',
     detail: 'ให้บริการใน Docker ติดต่อกันได้ เช่น Nginx ส่งต่อคำขอไปยัง Express',
+  },
+]
+
+const dockerCommands = [
+  {
+    command: 'docker build -t my-quasar-frontend:latest -f frontend/Dockerfile ./frontend',
+    description: 'ใช้เมื่อต้องการสร้าง image ใหม่จาก Dockerfile เช่น หลังแก้ซอร์สโค้ดของแอป',
+  },
+  {
+    command: 'docker run -d -p 8080:80 --name my-quasar-frontend-container my-quasar-frontend:latest',
+    description: 'ใช้เมื่อต้องการสร้างและรัน container จาก image แบบเบื้องหลัง โดยเปิดพอร์ต 8080 บนเครื่อง',
+  },
+  {
+    command: 'docker ps',
+    description: 'ใช้เมื่อต้องการดูรายการ container ที่กำลังรันอยู่ พร้อมสถานะและพอร์ตที่เปิด',
+  },
+  {
+    command: 'docker stop my-quasar-frontend-container',
+    description: 'ใช้เมื่อต้องการหยุด container ที่กำลังรัน เช่น ก่อนลบหรือก่อนสร้าง container ใหม่ชื่อเดิม',
+  },
+  {
+    command: 'docker rm my-quasar-frontend-container',
+    description: 'ใช้เมื่อต้องการลบ container ที่หยุดแล้ว เพื่อคืนชื่อและพอร์ตให้ใช้งานใหม่ได้',
+  },
+  {
+    command: 'docker compose up -d --build',
+    description: 'ใช้เมื่อต้องการ build และรันทุกบริการตามไฟล์ docker-compose.yml แบบเบื้องหลัง',
+  },
+  {
+    command: 'docker compose logs frontend',
+    description: 'ใช้เมื่อต้องการดู log ของบริการ frontend เพื่อตรวจหาข้อผิดพลาด',
+  },
+  {
+    command: 'docker compose down',
+    description: 'ใช้เมื่อต้องการหยุดและลบ container และ network ที่ Compose สร้างขึ้น',
   },
 ]
 </script>
